@@ -1,5 +1,5 @@
 /*
- * catch the 'load-scripts' event and inject the resilts into the current scope.
+ * catch the 'load-scripts' event and inject the results into the current scope.
  */
 (function() {
     self.port.on("load-scripts", function(msg) {
