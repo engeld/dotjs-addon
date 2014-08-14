@@ -6,21 +6,34 @@
         // bail out if we're in an iframe
         if (window.frameElement) return;
         
-        if (msg.jquery) eval(msg.jquery);
+        if ( msg.jquery ) eval(msg.jquery);
 
-        if (msg.js) eval(msg.js);
-
-        if (msg.coffee) {
-            // coffee-script.js assumes this === window
-            (function() { eval(msg.transpiler); }).call(window);
-            eval( CoffeeScript.compile(msg.coffee) );
+        if ( msg.js ) {
+            let js = msg.js;
+            if ( Array.isArray(js) ) {
+                for ( let i = 0; i < js.length; i++ ) eval(js[i]);
+            }
+            else eval(js);
         }
 
-        if (msg.css) {
-            var headNode = document.querySelector('head');
-            var cssNode = document.createElement('style');
-            cssNode.innerHTML = msg.css;
-            headNode.appendChild(cssNode);
+        if ( msg.coffee ) {
+            // coffee-script.js assumes this === window
+            ( function() { eval(msg.transpiler); } ).call(window);
+            let coffee = msg.coffee;
+            if ( ! Array.isArray(coffee) ) coffee = [ coffee ];
+            for ( let i = 0; i < coffee.length; i++ ) eval( CoffeeScript.compile(coffee[i]) );
+        }
+
+        if ( msg.css ) {
+            let headNode = document.getElementsByTagName('head')[0];
+
+            let css = msg.css;
+            if ( ! Array.isArray(css) ) css = [ css ];
+            for ( let i = 0; i < css.length; i++ ) {
+                let cssNode = document.createElement('style');
+                cssNode.innerHTML = css[i];
+                if ( headNode ) headNode.appendChild(cssNode);
+            }
         }
     });
 
