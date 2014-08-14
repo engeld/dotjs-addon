@@ -1,34 +1,38 @@
 dotjs
 =====
 
-This is a Firefox Add-on port of defunkt's Chrome extension <https://github.com/defunkt/dotjs>.
+This is a Firefox Add-on port of the **dotjs** Chrome extension <https://github.com/defunkt/dotjs>.
 
-dotjs is a Firefox Add-on that executes JavaScript and CoffeeScript files in `~/.js` based on their filename and the domain of the site you are visiting.
+The add-on executes JavaScript (and CoffeeScript) files from `~/.js` based on their filename and the domain of the site you are visiting.
 
-If you navigate to `http://www.google.com/`, dotjs will execute `~/.js/google.com.js` and/or `~/.js/google.com.coffee`. If you have a `~/.js/default.js`, it will execute on every page you visit. Also, you can put site specific .css files in `~/.css` (`C:\Users\<username>\css\.` in Windows 7). `default.css` loads in all sites.
+If you navigate to `http://www.google.com/`, dotjs will execute `~/.js/google.com.js` (or `~/.js/google.com.coffee`). 
+If you have a `~/.js/*.js`, it will execute on every page you visit. Also, you can put site specific .css files in `~/.css` (`C:\Users\<username>\css\.` in Windows 7). `*.css` loads in all sites.
+
+**NOTE:** This is different from the original add-on code which uses `default.js` instead of `*.js`, this fork also supports sub-domain name wild cards e.g. `*.google.com.css`.
 
 This makes it super easy to spruce up your favorite pages using JavaScript and CSS.
 
-Bonus:  files in `~/.js` have jQuery 1.7.1 loaded, regardless  of  whether  the  site  you're  hacking uses jQuery.
+GreaseMonkey user scripts are great, but you need to publish them somewhere and re-publish after making modifications.
 
-GreaseMonkey user scripts are great, but you need to publish them somewhere and re-publish after making modifications. With dotjs, just add or edit files in `~/.js`.
+Bonus:  files in `~/.js` have jQuery loaded, regardless  of  whether  the  site  you're hacking actually uses jQuery.
 
-# Example
+**NOTE:** jQuery (2.x) is only loaded when a `(jQuery)` match is found, do not assume it is being auto-loaded!
+
+## Example
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
     $('#header .site-logo img')
-    .css('width', '100px')
-    .css('margin-top', '-15px')
+    .css('width', '100px').css('margin-top', '-15px')
     .attr('src', 'https://img.skitch.com/20110207-x4s8eys3uy641yk72jigt38bby.png');
 
 ![](https://dl.dropbox.com/u/361064/dotjs.png)
 
-# How to target a specific path
+## How to target a specific path
 
 Sometimes, you don’t want to target a whole domain, but only a path.
 
-## CSS
+### CSS
 
 You can use the `@-moz-document` Mozilla Extension:
 
@@ -44,54 +48,32 @@ You can use the `@-moz-document` Mozilla Extension:
 
 Documentation: https://developer.mozilla.org/en/CSS/@-moz-document
 
-## JavaScript
+### JavaScript
 
 You can test the `window.location` object:
 
     // Search for a string
-    if (window.location.pathname.indexOf('/Style/') === 0) {
+    if ( window.location.pathname.indexOf('/home/') === 0 ) {
         // JS here
     }
 
     // Regex
-    if (/^\/Style\/.*/.test(window.location.pathname)) === 0) {
+    if ( /^\/home\/.*/.test(window.location.pathname)) === 0 ) {
         // JS here
     }
 
 Documentation: https://developer.mozilla.org/en/DOM/window.location
 
-# Installation
+## Installation
 
-- You can install from Mozilla Add-ons site: <https://addons.mozilla.org/en-US/firefox/addon/dotjs/>
-- Or from source. Refer to the Add-on SDK Docs: <https://jetpack.mozillalabs.com/sdk/latest/docs/>
+- download the latest build extension from ...
+- visit **about:addons** and select **Install Add-on From File...** the locate the *dotjs.xpi*
 
-# Dependencies
+### Building
 
-- addon-sdk: <https://github.com/mozilla/addon-sdk/>
-
-# Contributors (Thank you!)
-
-- djl: <https://github.com/djl>
-- tdolsen: <https://github.com/tdolsen>
-- canuckistani: <https://github.com/canuckistani>
-
-# Changelog
-v1.6: Leaner, meaner dotjs. A bunch of optimizations by canuckistani (Thanks! \o/).
-
-v1.3: Only load into into the main tab document (vs iframes, etc.).Improves memory usage and performance.
-
-v1.2: Updated to jQuery 1.7.1 and some cleanup (Thanks djl!).
-
-v0.9: CSS support!
-
-v0.8: Windows support! Put your scripts in a `js` folder under your home directory (`C:\Users\<username>\js\.` in Windows 7).
-
-v0.7: CoffeeScript support! `~/.js/example.com.coffee` gets transpiled to JavaScript and executed.
+- setup the addon-sdk: https://github.com/mozilla/addon-sdk/
+- run `cfx xpi` to build the extension (or `cfx run` to bring up an isolated browser instance)
 
 ## Credits
 
-- defunkt: <https://github.com/defunkt/dotjs>
-- jQuery: <http://jquery.com/>
-- Ryan Tomayko for:
-
-> "I almost wish you could just stick JavaScript in ~/.js. Do you know what I'm saying?"
+This is a fork of the original extension https://github.com/rlr/dotjs-addon (with changes from additional forks such as https://github.com/canuckistani/dotjs-addon and https://github.com/anshin/dotjs-addon) and is distributed under the same LICENSE.
