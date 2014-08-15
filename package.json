@@ -2,8 +2,9 @@
     "name": "dotjs", 
     "license": "MPL 1.1/GPL 2.0/LGPL 2.1", 
     "author": "Ricky Rosario", 
-    "version": "1.7", 
+    "version": "1.11.001.kares", 
     "fullName": "dotjs", 
     "id": "jid0-HC7vB1GcMVr7IBB5B5ADUjTJB3U", 
+    //"permissions": { "private-browsing": true },
     "description": "Add-on that executes JavaScript and CoffeeScript scripts from ~/.js and loads CSS files from ~/.css based on the site domain."
 }
