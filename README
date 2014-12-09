@@ -1,5 +1,6 @@
-dotjs
-=====
+# Personal fork of dotjs
+
+*This is forked from* **kares/dotjs-addon** *which itself is a fork of* **rlr/dotjs-addon**
 
 This is a Firefox Add-on port of the **dotjs** Chrome extension <https://github.com/defunkt/dotjs>.
 
