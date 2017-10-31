@@ -4,22 +4,22 @@
 (function() {
     self.port.on("load-scripts", function(msg) {
         // bail out if we're in an iframe
-        if (window.frameElement) return;
+        // if ( window.frameElement ) return;
         
-        if ( msg.jquery ) eval(msg.jquery);
+        if ( msg.jquery ) eval( msg.jquery ); // load jQuery
 
         if ( msg.js ) {
             let js = msg.js;
             if ( Array.isArray(js) ) {
                 for ( let i = 0; i < js.length; i++ ) eval(js[i]);
             }
-            else eval(js);
+            else eval(js); // eval matched .js file(s)
         }
 
         if ( msg.coffee ) {
             // coffee-script.js assumes this === window
             ( function() { eval(msg.transpiler); } ).call(window);
-            let coffee = msg.coffee;
+            let coffee = msg.coffee; // eval matched .coffee file(s)
             if ( ! Array.isArray(coffee) ) coffee = [ coffee ];
             for ( let i = 0; i < coffee.length; i++ ) eval( CoffeeScript.compile(coffee[i]) );
         }
@@ -27,7 +27,7 @@
         if ( msg.css ) {
             let headNode = document.getElementsByTagName('head')[0];
 
-            let css = msg.css;
+            let css = msg.css; // inject matched .css file(s)
             if ( ! Array.isArray(css) ) css = [ css ];
             for ( let i = 0; i < css.length; i++ ) {
                 let cssNode = document.createElement('style');
